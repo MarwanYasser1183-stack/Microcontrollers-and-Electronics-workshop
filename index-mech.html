@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IEEE RAS — Applied Mechatronics Mastery (Egypt Hub)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+<style>
+  :root {
+    --bg-dark: #030508;
+    --card-bg: rgba(15, 20, 28, 0.6);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --card-hover: rgba(25, 35, 50, 0.8);
+    
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    
+    --accent-teal: #00f0ff;
+    --accent-blue: #3a86ff;
+    --accent-purple: #8338ec;
+    --accent-amber: #ffb703;
+    --accent-red: #ef233c;
+    --accent-green: #06d6a0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  #progress-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+    background: rgba(255, 255, 255, 0.05); z-index: 1000;
+  }
+  #progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+    box-shadow: 0 0 15px var(--accent-teal);
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(3, 5, 8, 0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border); padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px;
+  }
+  .nav-logo { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 800; color: #fff; text-decoration: none; }
+  .nav-logo span { color: var(--accent-teal); }
+  
+  .hero { max-width: 1400px; margin: 0 auto; padding: 10rem 2rem 6rem; text-align: center; }
+  .hero-badge {
+    display: inline-block; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--accent-teal);
+    border-radius: 30px; padding: 6px 20px; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-teal); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem); font-family: 'Outfit', sans-serif; font-weight: 900;
+    line-height: 1; letter-spacing: -2px; margin-bottom: 2rem;
+    background: linear-gradient(to bottom, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { font-size: 1.3rem; color: var(--text-muted); max-width: 900px; margin: 0 auto; line-height: 1.7; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem 8rem; display: grid; grid-template-columns: 320px 1fr; gap: 4rem; }
+  
+  .sidebar { position: sticky; top: 110px; height: fit-content; }
+  .sidebar h4 { font-family: 'Outfit', sans-serif; font-size: 0.8rem; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; }
+  
+  /* EGYPT SPOTLIGHT SIDEBAR */
+  .egypt-card {
+    background: linear-gradient(135deg, rgba(239, 35, 60, 0.1), rgba(3, 5, 8, 0.5));
+    border: 1px solid rgba(239, 35, 60, 0.3); border-radius: 20px; padding: 1.5rem; margin-top: 2rem;
+  }
+  .egypt-card h5 { font-family: 'Outfit', sans-serif; color: var(--accent-red); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+  .egypt-link { display: block; color: var(--text-main); text-decoration: none; font-size: 0.85rem; margin-bottom: 0.8rem; transition: color 0.3s; }
+  .egypt-link:hover { color: var(--accent-red); }
+  .egypt-link span { display: block; font-size: 0.7rem; color: var(--text-muted); }
+
+  .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .sidebar-links a {
+    display: block; padding: 14px 20px; border-radius: 14px; color: var(--text-muted);
+    text-decoration: none; font-size: 0.9rem; transition: all 0.3s; border: 1px solid transparent;
+  }
+  .sidebar-links a:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+  .sidebar-links a.active { background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.3); color: var(--accent-teal); font-weight: 600; }
+
+  .content { display: flex; flex-direction: column; gap: 12rem; }
+  .phase { scroll-margin-top: 120px; }
+  .phase-header { margin-bottom: 4rem; }
+  .phase-id { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-teal); margin-bottom: 1rem; letter-spacing: 4px; }
+  .phase-title { font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -1px; }
+  
+  .definition-box {
+    background: rgba(255, 255, 255, 0.03); border-left: 4px solid var(--accent-teal);
+    padding: 1.5rem 2rem; border-radius: 0 16px 16px 0; margin-bottom: 3rem;
+  }
+  .definition-box h5 { font-family: 'Outfit', sans-serif; color: var(--accent-teal); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.8rem; }
+  .definition-box p { font-size: 1.05rem; color: var(--text-main); line-height: 1.6; }
+
+  .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; }
+  
+  .card {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem;
+    display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  .card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.2); background: var(--card-hover); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+  
+  .tag {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 800;
+    padding: 4px 12px; border-radius: 6px; margin-bottom: 1.5rem; text-transform: uppercase;
+  }
+  .tag-popular { background: rgba(255, 183, 3, 0.1); color: var(--accent-amber); border: 1px solid rgba(255, 183, 3, 0.3); }
+  .tag-official { background: rgba(58, 134, 255, 0.1); color: var(--accent-blue); border: 1px solid rgba(58, 134, 255, 0.3); }
+  .tag-egypt { background: rgba(239, 35, 60, 0.1); color: var(--accent-red); border: 1px solid rgba(239, 35, 60, 0.3); }
+
+  .card h3 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 1rem; }
+  .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem; flex-grow: 1; }
+  
+  .btn-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.05);
+    color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 700; transition: all 0.3s;
+  }
+  .btn-link:hover { background: var(--accent-teal); color: #000; transform: scale(1.02); }
+
+  .extra-info { margin-top: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+  .info-box { background: rgba(255,255,255,0.02); padding: 2rem; border-radius: 20px; border: 1px solid var(--card-border); }
+  .info-box h4 { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+  .info-box ul { list-style: none; }
+  .info-box li { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.8rem; position: relative; padding-left: 1.5rem; }
+  .info-box li a { color: var(--accent-teal); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+  .info-box li a:hover { color: var(--accent-red); text-decoration: underline; }
+
+  footer { border-top: 1px solid var(--card-border); padding: 8rem 2rem; text-align: center; }
+
+  @media(max-width: 1100px) {
+    .container { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-container"><div id="progress-bar"></div></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">⬡ IEEE RAS <span>E-JUST Hub</span></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-badge">Verified Career Pipeline // Egypt Spotlight</div>
+  <h1>Architect the <em>Autonomous Future</em></h1>
+  <p>A rigorous, hands-on journey from the first electron to industrial-grade robotics. Master each layer of the mechatronics stack with verified global and local resources.</p>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <h4>Mastery Roadmap</h4>
+    <ul class="sidebar-links">
+      <li><a href="#p1" class="active">01. Micro & Sensors</a></li>
+      <li><a href="#p2">02. Comm Protocols</a></li>
+      <li><a href="#p3">03. Mechanical Design</a></li>
+      <li><a href="#p4">04. Electrical Design</a></li>
+      <li><a href="#p5">05. Arduino Mastery</a></li>
+      <li><a href="#p6">06. Vision & AI</a></li>
+      <li><a href="#p7">07. Industrial ROS 2</a></li>
+      <li><a href="#p8">08. Systems & Integration</a></li>
+    </ul>
+
+    <!-- EGYPT LOCAL CONTEXT -->
+    <div class="egypt-card">
+      <h5>📍 Practice in Egypt</h5>
+      <a href="https://fablabegypt.com/" target="_blank" rel="noopener noreferrer" class="egypt-link">FabLab Egypt<span>Digital Fabrication & Makerspace</span></a>
+      <a href="https://san3atech.com/" target="_blank" rel="noopener noreferrer" class="egypt-link">San3a Tech<span>Maker Community & Training</span></a>
+      <a href="https://iti.gov.eg/" target="_blank" rel="noopener noreferrer" class="egypt-link">ITI Egypt<span>Professional Tech Tracks</span></a>
+      <a href="https://maharatech.gov.eg/" target="_blank" rel="noopener noreferrer" class="egypt-link">Mahara-Tech<span>ITI E-Learning Platform</span></a>
+    </div>
+  </aside>
+
+  <main class="content">
+    
+    <!-- PHASE 1: MICROCONTROLLERS -->
+    <section class="phase" id="p1">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 01 // FOUNDATIONS</div>
+        <h2 class="phase-title">Microcontrollers, Sensors & Actuators</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Nervous System" of a robot. This phase teaches you how to collect data from the physical world (Sensing) and perform physical actions (Actuating) using a silicon brain (MCU).</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>DroneBot Workshop</h3>
+          <p>The most exciting and fast-paced entry into hardware. Master sensors, motor drivers, and basic logic with real-world builds.</p>
+          <a href="https://www.youtube.com/@Dronebotworkshop/playlists" target="_blank" rel="noopener noreferrer" class="btn-link">Watch Playlist ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-egypt">LOCAL LEARNING</span>
+          <h3>Mahara-Tech // Embedded</h3>
+          <p>ITI's official e-learning platform. High-quality technical courses in Arabic/English specifically for the Egyptian market.</p>
+          <a href="https://maharatech.gov.eg/" target="_blank" rel="noopener noreferrer" class="btn-link">Start Learning ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">TUTORIALS</span>
+          <h3>Arduino Docs // Get Started</h3>
+          <p>The primary source for all things Arduino. From the first blink to advanced hardware interrupts.</p>
+          <a href="https://docs.arduino.cc/tutorials/" target="_blank" rel="noopener noreferrer" class="btn-link">View Docs ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Circuit Ideas</h4>
+          <ul>
+            <li>Smart Plant Watering System</li>
+            <li>Voice-Activated LED Matrix</li>
+            <li>Ultrasonic Distance Alarm</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>🏆 Competitions</h4>
+          <ul>
+            <li><a href="https://alameinrobotics.org/" target="_blank" rel="noopener noreferrer">Alamein Robotics (ARC) [LOCAL] ↗</a></li>
+            <li><a href="https://landminefree.org/" target="_blank" rel="noopener noreferrer">Minesweepers (Egypt) ↗</a></li>
+            <li><a href="https://www.robocup.org/" target="_blank" rel="noopener noreferrer">RoboCup Junior (Rescue) ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 2: COMMUNICATION -->
+    <section class="phase" id="p2">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 02 // DATA FLOW</div>
+        <h2 class="phase-title">Communication Protocols</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Languages" of robotics. Master how chips exchange data over I2C, SPI, UART, and CAN Bus to create a unified system.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>Andreas Spiess // Sensors</h3>
+          <p>Stable, deep-dive playlist on sensors and measurements. Master protocol timing and signal noise.</p>
+          <a href="https://www.youtube.com/playlist?list=PL3XBzmAj53RmryaFf7vyAP6U3f7H_5Lfk" target="_blank" rel="noopener noreferrer" class="btn-link">Watch Playlist ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">INDUSTRIAL</span>
+          <h3>CAN Bus Mastery</h3>
+          <p>The standard for automotive and heavy robotics. Professional-grade tutorial on the most robust bus system.</p>
+          <a href="https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial" target="_blank" rel="noopener noreferrer" class="btn-link">Verified Tutorial ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Design Ideas</h4>
+          <ul>
+            <li>Multi-Sensor Bus Hub</li>
+            <li>CAN-based Motor Controller Network</li>
+            <li>Long-distance RS485 Link</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 3: MECHANICAL -->
+    <section class="phase" id="p3">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 03 // THE SKELETON</div>
+        <h2 class="phase-title">Mechanical Design (SW & Fusion)</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Skeleton and Armor". Designing the physical structure that houses the electronics and enables motion through joints and linkages.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>Product Design Online</h3>
+          <p>Learn Fusion 360 in 30 Days. Fast-paced, project-based learning for mechatronics enthusiasts.</p>
+          <a href="https://www.youtube.com/@ProductDesignOnline/playlists" target="_blank" rel="noopener noreferrer" class="btn-link">Start Learning ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-egypt">LOCAL PRACTICE</span>
+          <h3>San3a Tech // Makers</h3>
+          <p>The heart of Egypt's maker movement. Access resources for manufacturing, workshops, and local prototyping.</p>
+          <a href="https://san3atech.com/" target="_blank" rel="noopener noreferrer" class="btn-link">Visit San3a ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-popular">SOLIDWORKS</span>
+          <h3>Too Tall Toby // Step-by-Step</h3>
+          <p>Master SolidWorks efficiency. Learn how to think in 3D and model complex assemblies at lightning speed.</p>
+          <a href="https://www.youtube.com/playlist?list=PLzMIhOgu1Y5dcycGHHoZ1iwkjt13VG4jb" target="_blank" rel="noopener noreferrer" class="btn-link">Watch Tutorials ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Project Ideas</h4>
+          <ul>
+            <li>Modular Drone Frame</li>
+            <li>3D Printed Linear Actuator</li>
+            <li>4-Bar Linkage Walker</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>🏆 Competitions</h4>
+          <ul>
+            <li><a href="https://apps.emys.gov.eg/youth/register" target="_blank" rel="noopener noreferrer">Ebda3 (Ministry of Sports) [LOCAL] ↗</a></li>
+            <li><a href="https://www.facebook.com/RoboconEgypt/" target="_blank" rel="noopener noreferrer">RoboCon Egypt ↗</a></li>
+            <li><a href="https://www.formulastudent.de/" target="_blank" rel="noopener noreferrer">Formula Student (DE) ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 4: ELECTRICAL -->
+    <section class="phase" id="p4">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 04 // THE VEINS</div>
+        <h2 class="phase-title">Electrical & PCB Design</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Circulatory System". Routing power and high-speed data signals reliably through custom Printed Circuit Boards (PCBs).</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>Phil's Lab // KiCad Mastery</h3>
+          <p>High-end hardware design. Stable KiCad 7.0 tutorial series from schematic to professional layout.</p>
+          <a href="https://www.youtube.com/playlist?list=PLXvLToQzjz9WOf_vWsh-58_f936q6m_5X" target="_blank" rel="noopener noreferrer" class="btn-link">Watch Lab ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">INDUSTRIAL</span>
+          <h3>Robert Feranec // High Speed</h3>
+          <p>The gold standard for professional PCB layout. Learn high-speed signal integrity and professional architecture.</p>
+          <a href="https://www.youtube.com/@RobertFeranec/playlists" target="_blank" rel="noopener noreferrer" class="btn-link">Watch Academy ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Circuit Ideas</h4>
+          <ul>
+            <li>Custom ESP32 Expansion Shield</li>
+            <li>High-Current Motor Driver PCB</li>
+            <li>Integrated Power Management Board</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>🏅 Programs</h4>
+          <ul>
+            <li>Formula Student Electrical Team</li>
+            <li>Altium Student Licensing Program</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 5: ARDUINO MASTERY -->
+    <section class="phase" id="p5">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 05 // THE LOGIC</div>
+        <h2 class="phase-title">Advanced Coding (Arduino IDE)</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Thought Process". Writing optimized, non-blocking code and complex algorithms (like PID) to drive robotic behavior.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>Paul McWhorter // New Series</h3>
+          <p>The most stable and comprehensive 2024 Arduino series. Master the logic required for professional robotics.</p>
+          <a href="https://www.youtube.com/playlist?list=PLGs0VKk2DiYw-L-RibttcvK-WBZm8WLEP" target="_blank" rel="noopener noreferrer" class="btn-link">Start Coding ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">COURSE</span>
+          <h3>UT Austin Embedded Systems</h3>
+          <p>A rigorous academic course on edX covering real-time systems and low-level hardware control.</p>
+          <a href="https://www.edx.org/course/embedded-systems-shape-the-world-multi-threaded-interfacing" target="_blank" rel="noopener noreferrer" class="btn-link">Enroll Now ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Algorithm Ideas</h4>
+          <ul>
+            <li>PID Balance Controller</li>
+            <li>State-Machine Menu System</li>
+            <li>Interrupt-driven Encoder Feedback</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 6: VISION & AI -->
+    <section class="phase" id="p6">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 06 // THE SENSES</div>
+        <h2 class="phase-title">Image Processing & AI</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Eyes". Processing visual data from cameras to detect objects, track faces, and understand the environment in real-time.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">PYIMAGESEARCH</span>
+          <h3>OpenCV Expert Tutorials</h3>
+          <p>The world's most detailed computer vision guides. Learn object detection, face tracking, and deep learning vision.</p>
+          <a href="https://pyimagesearch.com/" target="_blank" rel="noopener noreferrer" class="btn-link">Explore Guides ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">AI MASTERY</span>
+          <h3>DeepLearning.AI Specialization</h3>
+          <p>Master the fundamentals of Deep Learning and Neural Networks from Andrew Ng.</p>
+          <a href="https://www.deeplearning.ai/courses/deep-learning-specialization/" target="_blank" rel="noopener noreferrer" class="btn-link">Start AI Track ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Vision Ideas</h4>
+          <ul>
+            <li>Ball-Tracking Gimbal</li>
+            <li>Face-Recognition Lock</li>
+            <li>Autonomous Lane Follower</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>🏆 Competitions</h4>
+          <ul>
+            <li>OpenCV AI Competition</li>
+            <li>Kaggle Drone Vision Challenge</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 7: ROS 2 -->
+    <section class="phase" id="p7">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 07 // THE SOUL</div>
+        <h2 class="phase-title">Industrial ROS 2</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Social Brain". Managing complex interactions between vision, navigation, and hardware across multiple threads or devices.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-popular">TOP POPULAR</span>
+          <h3>Articulated Robotics // Mobile</h3>
+          <p>Official playlist for building a mobile robot with ROS 2 from the ground up.</p>
+          <a href="https://www.youtube.com/playlist?list=PLunhqkrRNR1Y76Um8SAt1RiYpBy7G6T_T" target="_blank" rel="noopener noreferrer" class="btn-link">Build a Robot ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-egypt">LOCAL IMPACT</span>
+          <h3>ROV Egypt // MATE ROV</h3>
+          <p>The national hub for underwater robotics. Connect with teams, find workshops, and join the ROV community.</p>
+          <a href="https://www.facebook.com/ROV.Egypt" target="_blank" rel="noopener noreferrer" class="btn-link">Visit ROV Egypt ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">INDUSTRIAL</span>
+          <h3>The Construct // ROS Academy</h3>
+          <p>Intensive, simulation-based training for ROS 2 and fleet management.</p>
+          <a href="https://www.theconstruct.ai/" target="_blank" rel="noopener noreferrer" class="btn-link">Start Academy ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Project Ideas</h4>
+          <ul>
+            <li>SLAM-based Mapping Rover</li>
+            <li>Simulated Pick-and-Place Cell</li>
+            <li>Swarm Drone Coordination</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 8: SYSTEMS & INTEGRATION -->
+    <section class="phase" id="p8">
+      <div class="phase-header">
+        <div class="phase-id">PHASE 08 // THE INTEGRATION</div>
+        <h2 class="phase-title">Systems Engineering & Capstone</h2>
+        <div class="definition-box">
+          <h5>Process Definition</h5>
+          <p>The "Full Machine". Integrating every skill into a high-performance system, following industrial standards, and preparing for global competitions.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="card">
+          <span class="tag tag-egypt">EGYPT FLAGSHIP</span>
+          <h3>Egyptian Engineering Day (EED)</h3>
+          <p>The most prestigious national event for engineering graduation projects. Pitch your capstone to the whole country.</p>
+          <a href="https://ieeeypegypt.org/eed/" target="_blank" rel="noopener noreferrer" class="btn-link">Visit EED ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-popular">ELITE</span>
+          <h3>RoboMaster University Series</h3>
+          <p>Master materials, software stacks, and mechanical systems used in the world's most advanced robotic combat.</p>
+          <a href="https://www.robomaster.com/en-US" target="_blank" rel="noopener noreferrer" class="btn-link">View Competition ↗</a>
+        </div>
+        <div class="card">
+          <span class="tag tag-official">CAREER</span>
+          <h3>Google Summer of Code</h3>
+          <p>Apply your skills to open-source robotics projects (ROS, OpenCV, ArduPilot) and build a world-class resume.</p>
+          <a href="https://summerofcode.withgoogle.com/" target="_blank" rel="noopener noreferrer" class="btn-link">Explore Projects ↗</a>
+        </div>
+      </div>
+
+      <div class="extra-info">
+        <div class="info-box">
+          <h4>💡 Final Challenges</h4>
+          <ul>
+            <li>Participate in EED with IEEE Egypt</li>
+            <li>Apply for GSoC with ROS-Industrial</li>
+            <li>Build a Professional Engineering Portfolio</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <h2>Architect the Future // Egypt Hub</h2>
+  <p>The IEEE RAS professional roadmap is your blueprint. Every course you master increases your competence. Build the future, one skill at a time.</p>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.phase');
+  const navLinks = document.querySelectorAll('.sidebar-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = "";
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 150) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href').includes(current)) {
+        a.classList.add('active');
+      }
+    });
+
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('progress-bar').style.width = scrolled + '%';
+  });
+</script>
+
+</body>
+</html>

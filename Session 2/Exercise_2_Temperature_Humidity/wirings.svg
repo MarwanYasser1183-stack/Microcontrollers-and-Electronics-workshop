@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="770" height="420" font-family="Arial, sans-serif">
+    <rect width="100%" height="100%" fill="white"/>
+    <text x="20" y="30" font-size="18" font-weight="bold" fill="#333">Wiring - Arduino (Group A)</text>
+    <g transform="translate(20, 50)">
+    <rect x="0" y="0" width="730" height="40" fill="#f2f2f2" stroke="#ddd"/>
+<rect x="0" y="0" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="25" font-size="14" font-weight="bold" fill="#333">Component Pin</text>
+<rect x="180" y="0" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="25" font-size="14" font-weight="bold" fill="#333">Board Pin</text>
+<rect x="330" y="0" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="25" font-size="14" font-weight="bold" fill="#333">Notes</text>
+<rect x="0" y="40" width="730" height="40" fill="#ffffff" stroke="#ddd"/>
+<rect x="0" y="40" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="65" font-size="14" fill="#555">DHT11 VCC</text>
+<rect x="180" y="40" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="65" font-size="14" fill="#555">5V</text>
+<rect x="330" y="40" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="65" font-size="14" fill="#555">Power</text>
+<rect x="0" y="80" width="730" height="40" fill="#fafafa" stroke="#ddd"/>
+<rect x="0" y="80" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="105" font-size="14" fill="#555">DHT11 GND</text>
+<rect x="180" y="80" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="105" font-size="14" fill="#555">GND</text>
+<rect x="330" y="80" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="105" font-size="14" fill="#555">Ground</text>
+<rect x="0" y="120" width="730" height="40" fill="#ffffff" stroke="#ddd"/>
+<rect x="0" y="120" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="145" font-size="14" fill="#555">DHT11 DATA</text>
+<rect x="180" y="120" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="145" font-size="14" fill="#555">Pin 2</text>
+<rect x="330" y="120" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="145" font-size="14" fill="#555">Add 4.7kΩ resistor between DATA and VCC</text>
+<rect x="0" y="160" width="730" height="40" fill="#fafafa" stroke="#ddd"/>
+<rect x="0" y="160" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="185" font-size="14" fill="#555">LCD1602 VCC</text>
+<rect x="180" y="160" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="185" font-size="14" fill="#555">5V</text>
+<rect x="330" y="160" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="185" font-size="14" fill="#555">Power</text>
+<rect x="0" y="200" width="730" height="40" fill="#ffffff" stroke="#ddd"/>
+<rect x="0" y="200" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="225" font-size="14" fill="#555">LCD1602 GND</text>
+<rect x="180" y="200" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="225" font-size="14" fill="#555">GND</text>
+<rect x="330" y="200" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="225" font-size="14" fill="#555">Ground</text>
+<rect x="0" y="240" width="730" height="40" fill="#fafafa" stroke="#ddd"/>
+<rect x="0" y="240" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="265" font-size="14" fill="#555">LCD1602 SDA</text>
+<rect x="180" y="240" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="265" font-size="14" fill="#555">A4 (SDA)</text>
+<rect x="330" y="240" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="265" font-size="14" fill="#555">I2C data</text>
+<rect x="0" y="280" width="730" height="40" fill="#ffffff" stroke="#ddd"/>
+<rect x="0" y="280" width="180" height="40" fill="none" stroke="#ddd"/>
+<text x="10" y="305" font-size="14" fill="#555">LCD1602 SCL</text>
+<rect x="180" y="280" width="150" height="40" fill="none" stroke="#ddd"/>
+<text x="190" y="305" font-size="14" fill="#555">A5 (SCL)</text>
+<rect x="330" y="280" width="400" height="40" fill="none" stroke="#ddd"/>
+<text x="340" y="305" font-size="14" fill="#555">I2C clock</text>
+
+    </g>
+</svg>
